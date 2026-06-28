@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: #000;
+            background-image: radial-gradient(circle, #150510 10%, #000 90%);
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        /* Título principal solicitado */
+        .title {
+            position: absolute;
+            top: 15%;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ff4a8d;
+            text-shadow: 0 0 10px #ff4a8d, 0 0 20px #ff1493;
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: 0 0 10px #ff4a8d; }
+            100% { transform: scale(1.05); text-shadow: 0 0 25px #ff1493, 0 0 5px #fff; }
+        }
+
+        /* Efecto de corazón brillante de fondo */
+        .heart-bg {
+            position: absolute;
+            top: 25%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255,20,147,0.3) 0%, rgba(0,0,0,0) 70%);
+            z-index: 1;
+            pointer-events: none;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        /* Mensajes interactivos arrastrables */
+        .message-box {
+            position: absolute;
+            background: rgba(255, 20, 147, 0.12);
+            border: 1px solid rgba(255, 74, 141, 0.4);
+            padding: 12px 20px;
+            border-radius: 20px;
+            cursor: move;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.2);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            transition: transform 0.1s ease, box-shadow 0.2s;
+            z-index: 5;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            touch-action: none; /* Evita que la pantalla se mueva en cel al arrastrar */
+        }
+
+        .message-box:active {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 20, 147, 0.6);
+            z-index: 100;
+        }
+
+        /* Botón de música superior derecho */
+        .music-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ff4a8d;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px #ff4a8d;
+            z-index: 20;
+            transition: 0.3s;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            background-color: #ff1493;
+        }
+
+        .music-btn svg {
+            fill: white;
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="title">¿Quieres ser mi novia?</div>
+
+    <div class="heart-bg"></div>
+
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+
+    <audio id="bgMusic" src="humano.mp3" loop></audio>
+
+    <script>
+        const phrases = [
+            "Te amo",
+            "Te quiero",
+            "Me gustan tus ojos",
+            "Eres increíble",
+            "Me haces muy feliz",
+            "Tu sonrisa lo es todo",
+            "Me encanta hablar contigo"
+        ];
+
+        const audio = document.getElementById('bgMusic');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play().catch(err => console.log("Interacción requerida"));
+                playIcon.style.display = "none";
+                pauseIcon.style.display = "block";
+            } else {
+                audio.pause();
+                playIcon.style.display = "block";
+                pauseIcon.style.display = "none";
+            }
+        }
+
+        // Intenta activar la música automáticamente al tocar cualquier parte de la pantalla por primera vez
+        window.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    playIcon.style.display = "none";
+                    pauseIcon.style.display = "block";
+                }).catch(() => {});
+            }
+        }, { once: true });
+
+        // Generar los cuadros de texto interactivos
+        phrases.forEach((text) => {
+            const box = document.createElement('div');
+            box.className = 'message-box';
+            box.innerText = text;
+
+            // Distribuir de forma segura en la pantalla
+            const randomX = Math.random() * (window.innerWidth - 220) + 20;
+            const randomY = Math.random() * (window.innerHeight - 350) + 280;
+            
+            box.style.left = `${randomX}px`;
+            box.style.top = `${randomY}px`;
+
+            document.body.appendChild(box);
+            makeElementDraggable(box);
+        });
+
+        // Lógica de arrastre compatible con PC y Celular
+        function makeElementDraggable(element) {
+            let currentX, currentY, initialX, initialY;
+            let active = false;
+
+            element.addEventListener("mousedown", dragStart);
+            element.addEventListener("touchstart", dragStart, { passive: true });
+
+            document.addEventListener("mousemove", drag);
+            document.addEventListener("touchmove", drag, { passive: false });
+
+            document.addEventListener("mouseup", dragEnd);
+            document.addEventListener("touchend", dragEnd);
+
+            function dragStart(e) {
+                let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                initialX = clientX - element.offsetLeft;
+                initialY = clientY - element.offsetTop;
+                active = true;
+            }
+
+            function drag(e) {
+                if (active) {
+                    if (e.type === "touchmove") e.preventDefault(); // Evita scroll en celular
+                    
+                    let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    
+                    currentX = clientX - initialX;
+                    currentY = clientY - initialY;
+
+                    element.style.left = `${currentX}px`;
+                    element.style.top = `${currentY}px`;
+                }
+            }
+
+            function dragEnd() {
+                active = false;
+            }
+        }
+    </script>
+</body>
+</html>
