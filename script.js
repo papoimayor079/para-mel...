@@ -161,19 +161,5 @@ function crearExplosion(){
 window.onload=()=>{
 
     document.body.style.opacity="1";
-// 🎵 tu código de música (ejemplo)
-var musica = document.getElementById("musica");
 
-function play() {
-  musica.play();
-}
-
-// 💖 botones nuevos
-function aceptar() {
-  alert("💖 Sabía que dirías que sí 💖");
-}
-
-function rechazar() {
-  alert("😢 Está bien...");
-}
 };
