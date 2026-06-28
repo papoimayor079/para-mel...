@@ -1,35 +1,111 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti ❤️</title>
 
-<title>¿Quieres ser mi novia?</title>
+    <!-- Fuente elegante -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css">
-
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div id="title">
+    <!-- Fondo -->
+    <div id="background"></div>
 
-<h1>¿Quieres ser mi novia?</h1>
+    <!-- Pétalos -->
+    <div id="petals"></div>
 
-</div>
+    <!-- Contenido -->
+    <main class="container">
 
-<div id="container"></div>
+        <!-- Título -->
+        <h3 class="subtitle">
+            Para ti
+        </h3>
 
-<audio id="music" autoplay loop>
-    <source src="music.mp3" type="audio/mp3">
-</audio>
+        <div class="line"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <h1 class="title">
+            Quieres ser mi novia
+        </h1>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.128/examples/js/controls/OrbitControls.js"></script>
+        <!-- Poema -->
 
-<script src="script.js"></script>
+        <section class="poem">
+
+            <p>
+                Desde el primer momento en que te vi,
+                entendí que hay personas capaces de cambiar
+                un día común por un recuerdo inolvidable.
+            </p>
+
+            <p>
+                Tu nombre rima con cada uno de mis pensamientos,
+                y tu sonrisa tiene la extraña costumbre
+                de quedarse en mi mente incluso cuando no estás.
+            </p>
+
+            <p>
+                Si el destino escribió este momento,
+                quiero aprovecharlo para preguntarte algo
+                que llevo tiempo sintiendo.
+            </p>
+
+        </section>
+
+        <!-- Botones -->
+
+        <div class="buttons">
+
+            <button id="yesButton">
+                Sí
+            </button>
+
+            <button id="noButton">
+                No
+            </button>
+
+        </div>
+
+        <!-- Selección de canción -->
+
+        <section id="musicSection" class="hidden">
+
+            <h2>
+                Elige una canción
+            </h2>
+
+            <div class="musicButtons">
+
+                <button class="song" data-song="humano">
+                    Humano — Latin Mafia
+                </button>
+
+                <button class="song" data-song="sentado">
+                    Sentado — Latin Mafia
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Audios -->
+
+    <audio id="audioPlayer"></audio>
+
+    <!-- JavaScript -->
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>
