@@ -1,238 +1,863 @@
-/* ==========================
+/* =========================================
    RESET
-========================== */
+========================================= */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
 
+    width:100%;
+    min-height:100vh;
+
     overflow:hidden;
-    background:#000;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:#050505;
+
+    font-family:'Poppins',sans-serif;
+
+    color:#fff;
+
+    position:relative;
+
 }
 
-/* ==========================
-   CANVAS
-========================== */
+/* =========================================
+   FONDO
+========================================= */
 
-canvas{
+#background{
 
     position:fixed;
+
     top:0;
     left:0;
+
     width:100%;
     height:100%;
+
+    background:
+
+    radial-gradient(circle at top,
+    rgba(90,0,20,.45),
+    transparent 35%),
+
+    radial-gradient(circle at bottom,
+    rgba(70,0,15,.45),
+    transparent 40%),
+
+    linear-gradient(
+    180deg,
+    #050505,
+    #080808,
+    #040404);
+
+    z-index:-3;
+
 }
 
-/* ==========================
-   TITULO
-========================== */
+/* Brillo rojo */
 
-#title{
+#background::before{
+
+    content:"";
 
     position:absolute;
 
-    width:100%;
+    width:900px;
+    height:900px;
 
-    top:35px;
+    background:radial-gradient(circle,
+    rgba(110,0,25,.28),
+    transparent 70%);
 
-    left:50%;
+    top:-350px;
+    left:-300px;
 
-    transform:translateX(-50%);
+    animation:glow1 10s ease-in-out infinite;
+
+}
+
+#background::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:900px;
+    height:900px;
+
+    background:radial-gradient(circle,
+    rgba(140,0,30,.20),
+    transparent 70%);
+
+    bottom:-350px;
+    right:-300px;
+
+    animation:glow2 12s ease-in-out infinite;
+
+}
+
+@keyframes glow1{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.2);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+@keyframes glow2{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(.85);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.container{
+
+    width:min(92%,900px);
 
     text-align:center;
 
-    z-index:100;
+    padding:50px;
 
-    pointer-events:none;
+    border:1px solid rgba(255,255,255,.05);
+
+    border-radius:30px;
+
+    background:rgba(15,15,15,.55);
+
+    backdrop-filter:blur(14px);
+
+    box-shadow:
+
+    0 0 40px rgba(80,0,20,.25),
+
+    inset 0 0 30px rgba(255,255,255,.02);
+
+    animation:fadeUp 1.2s ease;
 
 }
 
-#title h1{
+@keyframes fadeUp{
 
-    color:white;
+from{
 
-    font-size:55px;
+opacity:0;
 
-    font-weight:bold;
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* =========================================
+   TEXTOS
+========================================= */
+
+.subtitle{
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:2.2rem;
+
+    font-weight:400;
 
     letter-spacing:2px;
 
-    text-shadow:
-    0 0 10px #ff69b4,
-    0 0 20px #ff1493,
-    0 0 40px #ff1493,
-    0 0 70px #ff1493;
-
-    animation:latido 2s infinite;
+    color:#f4f4f4;
 
 }
 
-/* ==========================
-   CONTENEDOR
-========================== */
+.line{
 
-#container{
+    width:170px;
 
-    position:fixed;
+    height:2px;
 
-    width:100%;
+    margin:20px auto;
 
-    height:100%;
+    background:linear-gradient(
+    to right,
+    transparent,
+    #70001c,
+    transparent);
 
 }
 
-/* ==========================
-   MENSAJES
-========================== */
+.title{
 
-.message{
+    font-family:'Cormorant Garamond',serif;
 
-    position:absolute;
+    font-size:4rem;
 
-    color:white;
+    font-weight:600;
 
-    font-size:18px;
+    color:#7b0018;
 
-    font-weight:bold;
+    margin-bottom:35px;
 
     text-shadow:
 
-    0 0 8px deeppink,
-
-    0 0 20px hotpink;
-
-    white-space:nowrap;
-
-    pointer-events:none;
+    0 0 10px rgba(120,0,25,.3);
 
 }
 
-/* ==========================
-   ESTRELLAS
-========================== */
+.poem{
 
-.star{
+    max-width:650px;
 
-    position:absolute;
+    margin:auto;
 
-    background:white;
+    line-height:2;
 
-    border-radius:50%;
+    color:#e2e2e2;
 
-    animation:blink 2s infinite alternate;
+    font-size:1.05rem;
 
 }
 
-/* ==========================
-   BOTON (LO USAREMOS DESPUES)
-========================== */
+.poem p{
+
+    margin-bottom:18px;
+
+}
+
+/* =========================================
+   BOTONES
+========================================= */
+
+.buttons{
+
+    margin-top:45px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:35px;
+
+}
 
 button{
 
-    border:none;
-
     cursor:pointer;
 
-}
+    border:none;
 
-/* ==========================
-   ANIMACIONES
-========================== */
+    padding:16px 42px;
 
-@keyframes blink{
+    border-radius:16px;
 
-    from{
+    font-size:1rem;
 
-        opacity:.2;
+    transition:.35s;
 
-    }
-
-    to{
-
-        opacity:1;
-
-    }
+    font-family:'Poppins',sans-serif;
 
 }
 
-@keyframes latido{
+#yesButton{
 
-    0%{
+    background:#730018;
 
-        transform:scale(1);
+    color:white;
 
-    }
-
-    25%{
-
-        transform:scale(1.05);
-
-    }
-
-    50%{
-
-        transform:scale(1.12);
-
-    }
-
-    75%{
-
-        transform:scale(1.05);
-
-    }
-
-    100%{
-
-        transform:scale(1);
-
-    }
+    box-shadow:0 0 25px rgba(130,0,25,.45);
 
 }
 
-/* ==========================
-   FONDO
-========================== */
+#yesButton:hover{
 
-body::before{
+    transform:translateY(-4px);
 
-    content:"";
+    background:#930020;
+
+}
+
+#noButton{
+
+    background:#181818;
+
+    color:white;
+
+    border:1px solid #730018;
+
+}
+
+#noButton:hover{
+
+    background:#2a2a2a;
+
+}
+
+/* =========================================
+   SECCIÓN MÚSICA
+========================================= */
+
+.hidden{
+
+display:none;
+
+}
+
+#musicSection{
+
+margin-top:50px;
+
+animation:fadeUp .8s;
+
+}
+
+#musicSection h2{
+
+font-family:'Cormorant Garamond',serif;
+
+font-size:2rem;
+
+margin-bottom:25px;
+
+color:#ffffff;
+
+}
+
+.musicButtons{
+
+display:flex;
+
+justify-content:center;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+}
+
+.song{
+
+background:#5f0015;
+
+min-width:240px;
+
+}
+
+.song:hover{
+
+background:#860020;
+
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:768px){
+
+.container{
+
+padding:30px 20px;
+
+}
+
+.title{
+
+font-size:2.6rem;
+
+}
+
+.subtitle{
+
+font-size:1.8rem;
+
+}
+
+.buttons{
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+button{
+
+width:100%;
+
+}
+
+.musicButtons{
+
+flex-direction:column;
+
+}
+
+.song{
+
+width:100%;
+
+}
+
+}/*==================================================
+=            PARTE 2 - EFECTOS Y PÉTALOS            =
+==================================================*/
+
+/* Contenedor de pétalos */
+
+#petals{
 
     position:fixed;
 
     inset:0;
 
-    background:
-
-    radial-gradient(circle at center,
-
-    rgba(255,20,147,.05),
-
-    transparent 70%);
+    overflow:hidden;
 
     pointer-events:none;
 
-}
-
-/* ==========================
-   RESPONSIVE
-========================== */
-
-@media(max-width:768px){
-
-#title h1{
-
-font-size:34px;
+    z-index:2;
 
 }
 
-.message{
+/* Cada pétalo */
 
-font-size:14px;
+.petal{
+
+    position:absolute;
+
+    top:-80px;
+
+    width:28px;
+
+    height:28px;
+
+    background-image:url("https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f339.svg");
+
+    background-repeat:no-repeat;
+
+    background-size:contain;
+
+    opacity:.9;
+
+    animation-name:fall;
+
+    animation-timing-function:linear;
+
+    animation-iteration-count:infinite;
+
+}
+
+/* Animación de caída */
+
+@keyframes fall{
+
+0%{
+
+transform:
+translateY(-100px)
+rotate(0deg)
+scale(.7);
+
+opacity:0;
+
+}
+
+10%{
+
+opacity:1;
+
+}
+
+100%{
+
+transform:
+translateY(120vh)
+translateX(120px)
+rotate(720deg)
+scale(1);
+
+opacity:0;
+
+}
+
+}
+
+/*==================================================
+=            ROSAS DECORATIVAS                     =
+==================================================*/
+
+body::before{
+
+content:"🌹";
+
+position:fixed;
+
+left:35px;
+
+top:25px;
+
+font-size:90px;
+
+opacity:.12;
+
+filter:blur(.4px);
+
+animation:floatRose 7s ease-in-out infinite;
+
+pointer-events:none;
+
+}
+
+body::after{
+
+content:"🌹";
+
+position:fixed;
+
+right:35px;
+
+bottom:25px;
+
+font-size:90px;
+
+opacity:.12;
+
+filter:blur(.4px);
+
+animation:floatRose 8s ease-in-out infinite reverse;
+
+pointer-events:none;
+
+}
+
+@keyframes floatRose{
+
+0%{
+
+transform:
+translateY(0px)
+rotate(0deg);
+
+}
+
+50%{
+
+transform:
+translateY(-15px)
+rotate(6deg);
+
+}
+
+100%{
+
+transform:
+translateY(0px)
+rotate(0deg);
+
+}
+
+}
+
+/*==================================================
+=            DESTELLOS ROJO VINO                  =
+==================================================*/
+
+.spark{
+
+position:absolute;
+
+width:6px;
+
+height:6px;
+
+border-radius:50%;
+
+background:#8d001d;
+
+box-shadow:
+0 0 12px #a30024,
+0 0 25px #8d001d;
+
+animation:spark 4s linear infinite;
+
+}
+
+@keyframes spark{
+
+0%{
+
+opacity:0;
+
+transform:
+translateY(30px)
+scale(.4);
+
+}
+
+50%{
+
+opacity:1;
+
+}
+
+100%{
+
+opacity:0;
+
+transform:
+translateY(-180px)
+scale(1.2);
+
+}
+
+}
+
+/*==================================================
+=          EFECTO DE CRISTAL DEL PANEL            =
+==================================================*/
+
+.container::before{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+border-radius:30px;
+
+padding:1px;
+
+background:
+
+linear-gradient(
+135deg,
+rgba(255,255,255,.08),
+rgba(120,0,30,.25),
+rgba(255,255,255,.03));
+
+-webkit-mask:
+linear-gradient(#fff 0 0) content-box,
+linear-gradient(#fff 0 0);
+
+-webkit-mask-composite:xor;
+
+mask-composite:exclude;
+
+pointer-events:none;
+
+}
+
+/*==================================================
+=            SOMBRA DE LOS TEXTOS                 =
+==================================================*/
+
+.title{
+
+text-shadow:
+
+0 0 10px rgba(120,0,30,.4),
+
+0 0 25px rgba(120,0,30,.2),
+
+0 0 50px rgba(120,0,30,.1);
+
+}
+
+.subtitle{
+
+text-shadow:
+
+0 0 8px rgba(255,255,255,.08);
+
+}
+
+.poem{
+
+text-shadow:
+
+0 0 6px rgba(0,0,0,.45);
+
+}
+
+/*==================================================
+=            EFECTOS BOTONES                      =
+==================================================*/
+
+button{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+button::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-120%;
+
+width:100%;
+
+height:100%;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+transparent,
+
+rgba(255,255,255,.25),
+
+transparent
+
+);
+
+transition:.7s;
+
+}
+
+button:hover::before{
+
+left:130%;
+
+}
+
+#yesButton{
+
+animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+0%{
+
+box-shadow:
+
+0 0 12px rgba(120,0,30,.25);
+
+}
+
+50%{
+
+box-shadow:
+
+0 0 35px rgba(120,0,30,.6);
+
+}
+
+100%{
+
+box-shadow:
+
+0 0 12px rgba(120,0,30,.25);
+
+}
+
+}
+
+/*==================================================
+=            SCROLL (POR SI SE NECESITA)          =
+==================================================*/
+
+::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#700018;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#0a0a0a;
+
+}
+
+/*==================================================
+=            RESPONSIVE EXTRA                     =
+==================================================*/
+
+@media(max-width:600px){
+
+body::before,
+body::after{
+
+font-size:60px;
+
+opacity:.08;
+
+}
+
+.title{
+
+font-size:2.2rem;
+
+}
+
+.poem{
+
+font-size:.95rem;
+
+line-height:1.8;
+
+}
+
+.container{
+
+border-radius:22px;
 
 }
 
