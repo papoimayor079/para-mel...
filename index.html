@@ -14,7 +14,6 @@
 
         body {
             background-color: #000;
-            background-image: radial-gradient(circle, #150510 10%, #000 90%);
             overflow: hidden;
             font-family: 'Arial', sans-serif;
             height: 100vh;
@@ -22,69 +21,90 @@
             justify-content: center;
             align-items: center;
             color: #fff;
+            position: relative;
         }
 
-        /* Título principal solicitado */
-        .title {
+        /* Canvas para las estrellas y conexiones de la galaxia */
+        #galaxyCanvas {
             position: absolute;
-            top: 15%;
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #ff4a8d;
-            text-shadow: 0 0 10px #ff4a8d, 0 0 20px #ff1493;
-            z-index: 10;
-            text-align: center;
+            top: 0;
+            left: 0;
             width: 100%;
-            letter-spacing: 2px;
-            animation: pulse 2s infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); text-shadow: 0 0 10px #ff4a8d; }
-            100% { transform: scale(1.05); text-shadow: 0 0 25px #ff1493, 0 0 5px #fff; }
-        }
-
-        /* Efecto de corazón brillante de fondo */
-        .heart-bg {
-            position: absolute;
-            top: 25%;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(255,20,147,0.3) 0%, rgba(0,0,0,0) 70%);
+            height: 100%;
             z-index: 1;
             pointer-events: none;
-            animation: heartbeat 1.5s infinite;
+        }
+
+        /* Contenedor central: Corazón + Título dentro */
+        .center-universe {
+            position: absolute;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 450px;
+            height: 450px;
+            pointer-events: none;
+        }
+
+        /* El corazón brillante de fondo */
+        .heart-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 20, 147, 0.35) 0%, rgba(255, 20, 147, 0.05) 50%, rgba(0,0,0,0) 70%);
+            animation: heartbeat 2s infinite ease-in-out;
+        }
+
+        /* Título principal DENTRO del corazón */
+        .title {
+            position: relative;
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #ff4a8d;
+            text-shadow: 0 0 15px #ff4a8d, 0 0 30px #ff1493, 0 0 5px #fff;
+            text-align: center;
+            letter-spacing: 2px;
+            padding: 20px;
+            pointer-events: auto; /* Para que resalte al frente */
         }
 
         @keyframes heartbeat {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
+            0% { transform: scale(0.93); opacity: 0.8; }
+            50% { transform: scale(1.07); opacity: 1; }
+            100% { transform: scale(0.93); opacity: 0.8; }
         }
 
-        /* Mensajes interactivos arrastrables */
+        /* Mensajes interactivos estilo estrellas/nebulosa */
         .message-box {
             position: absolute;
-            background: rgba(255, 20, 147, 0.12);
-            border: 1px solid rgba(255, 74, 141, 0.4);
-            padding: 12px 20px;
+            background: rgba(255, 20, 147, 0.08);
+            border: 1px solid rgba(255, 74, 141, 0.35);
+            padding: 10px 18px;
             border-radius: 20px;
             cursor: move;
-            box-shadow: 0 0 15px rgba(255, 20, 147, 0.2);
+            box-shadow: 0 0 12px rgba(255, 20, 147, 0.15);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
-            transition: transform 0.1s ease, box-shadow 0.2s;
-            z-index: 5;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: bold;
-            color: #fff;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-            touch-action: none; /* Evita que la pantalla se mueva en cel al arrastrar */
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+            touch-action: none;
+            z-index: 5;
+            transition: background 0.3s, box-shadow 0.3s, border 0.3s;
+        }
+
+        .message-box:hover {
+            background: rgba(255, 20, 147, 0.2);
+            border-color: rgba(255, 74, 141, 0.7);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
         }
 
         .message-box:active {
             transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 20, 147, 0.6);
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.8);
+            background: rgba(255, 20, 147, 0.3);
             z-index: 100;
         }
 
@@ -103,7 +123,7 @@
             justify-content: center;
             align-items: center;
             box-shadow: 0 0 15px #ff4a8d;
-            z-index: 20;
+            z-index: 50;
             transition: 0.3s;
         }
 
@@ -121,9 +141,12 @@
 </head>
 <body>
 
-    <div class="title">¿Quieres ser mi novia?</div>
+    <canvas id="galaxyCanvas"></canvas>
 
-    <div class="heart-bg"></div>
+    <div class="center-universe">
+        <div class="heart-bg"></div>
+        <h1 class="title">¿Quieres ser mi novia?</h1>
+    </div>
 
     <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
         <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -133,19 +156,23 @@
     <audio id="bgMusic" src="humano.mp3" loop></audio>
 
     <script>
+        // Lista ampliada con muchos más mensajes flotantes
         const phrases = [
-            "Te amo",
-            "Te quiero",
-            "Me gustan tus ojos",
-            "Eres increíble",
-            "Me haces muy feliz",
-            "Tu sonrisa lo es todo",
-            "Me encanta hablar contigo"
+            "Te amo", "Te quiero", "Me gustan tus ojos", "Eres increíble", 
+            "Me haces muy feliz", "Tu sonrisa lo es todo", "Me encanta hablar contigo",
+            "Eres mi persona favorita", "Cada momento contigo cuenta", "Me gustas muchísimo",
+            "Adoro tu forma de ser", "Haces mi mundo más bonito", "Pensando en ti",
+            "Mi lugar favorito es contigo", "Eres arte", "Gracias por existir",
+            "Me encantas", "Estar contigo es lo mejor", "Haces que todo sea especial"
         ];
 
         const audio = document.getElementById('bgMusic');
         const playIcon = document.getElementById('playIcon');
         const pauseIcon = document.getElementById('pauseIcon');
+        const canvas = document.getElementById('galaxyCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let elements = [];
 
         function toggleMusic() {
             if (audio.paused) {
@@ -159,7 +186,6 @@
             }
         }
 
-        // Intenta activar la música automáticamente al tocar cualquier parte de la pantalla por primera vez
         window.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play().then(() => {
@@ -169,41 +195,53 @@
             }
         }, { once: true });
 
-        // Generar los cuadros de texto interactivos
+        // Ajustar tamaño del canvas al iniciar y cambiar tamaño de pantalla
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Crear los cuadros de mensajes dispersos por la galaxia
         phrases.forEach((text) => {
             const box = document.createElement('div');
             box.className = 'message-box';
             box.innerText = text;
 
-            // Distribuir de forma segura en la pantalla
-            const randomX = Math.random() * (window.innerWidth - 220) + 20;
-            const randomY = Math.random() * (window.innerHeight - 350) + 280;
+            // Evitar que aparezcan amontonados justo encima del texto central al inicio
+            let randomX, randomY;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            do {
+                randomX = Math.random() * (window.innerWidth - 180) + 10;
+                randomY = Math.random() * (window.innerHeight - 100) + 10;
+            } while (Math.abs(randomX - centerX) < 200 && Math.abs(randomY - centerY) < 200);
             
             box.style.left = `${randomX}px`;
             box.style.top = `${randomY}px`;
 
             document.body.appendChild(box);
+            elements.push(box);
             makeElementDraggable(box);
         });
 
-        // Lógica de arrastre compatible con PC y Celular
+        // Lógica de arrastre
         function makeElementDraggable(element) {
             let currentX, currentY, initialX, initialY;
             let active = false;
 
             element.addEventListener("mousedown", dragStart);
             element.addEventListener("touchstart", dragStart, { passive: true });
-
             document.addEventListener("mousemove", drag);
             document.addEventListener("touchmove", drag, { passive: false });
-
             document.addEventListener("mouseup", dragEnd);
             document.addEventListener("touchend", dragEnd);
 
             function dragStart(e) {
                 let clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                
                 initialX = clientX - element.offsetLeft;
                 initialY = clientY - element.offsetTop;
                 active = true;
@@ -211,14 +249,11 @@
 
             function drag(e) {
                 if (active) {
-                    if (e.type === "touchmove") e.preventDefault(); // Evita scroll en celular
-                    
+                    if (e.type === "touchmove") e.preventDefault();
                     let clientX = e.touches ? e.touches[0].clientX : e.clientX;
                     let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                    
                     currentX = clientX - initialX;
                     currentY = clientY - initialY;
-
                     element.style.left = `${currentX}px`;
                     element.style.top = `${currentY}px`;
                 }
@@ -228,6 +263,51 @@
                 active = false;
             }
         }
+
+        // Sistema de animación de la galaxia (Líneas de conexión estelares)
+        function animateGalaxy() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            // Dibujar conexiones de constelación entre los cuadros y el centro
+            elements.forEach((box) => {
+                const boxX = box.offsetLeft + (box.offsetWidth / 2);
+                const boxY = box.offsetTop + (box.offsetHeight / 2);
+
+                // Conectar cada mensaje con el centro galáctico (El corazón)
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(boxX, boxY);
+                ctx.strokeStyle = 'rgba(255, 74, 141, 0.08)';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Conectar mensajes cercanos entre sí para crear nodos de constelación
+                elements.forEach((otherBox) => {
+                    if (box !== otherBox) {
+                        const otherX = otherBox.offsetLeft + (otherBox.offsetWidth / 2);
+                        const otherY = otherBox.offsetTop + (otherBox.offsetHeight / 2);
+                        const distance = Math.hypot(boxX - otherX, boxY - otherY);
+
+                        if (distance < 280) { // Distancia máxima de conexión
+                            ctx.beginPath();
+                            ctx.moveTo(boxX, boxY);
+                            ctx.lineTo(otherX, otherY);
+                            ctx.strokeStyle = `rgba(255, 20, 147, ${0.06 * (1 - distance / 280)})`;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                        }
+                    }
+                });
+            });
+
+            requestAnimationFrame(animateGalaxy);
+        }
+
+        // Iniciar fondo animado
+        animateGalaxy();
     </script>
 </body>
 </html>
